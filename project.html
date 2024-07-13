@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+
+
+    <link rel='stylesheet' href='./project.css' type="text/css">
+    <title>project</title>
+</head>
+
+<body dir="rtl">
+    <div id="container" style="text-align: center;align-content: center;">
+        <input type="text" id="inputtext" />
+        <div id="co-project" style="background-color: peru; height: 50vh;width: 500px;">
+            <div id="head" style="display: flex;justify-content: space-between; background-color: aquamarine;">
+
+                <div id="headpro"><button onclick="clickbtn()" style="height: 100%;">+</button></div>
+                <div style="text-align: center;  translate: 200px 0; ">
+                    <h4>مدير المهام</h4>
+                </div>
+
+            </div>
+
+            <div id="realpro" style="color: white;">
+                <div id="contli">
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="w"></div>
+</body>
+
+</html>
+<script>
+
+
+
+
+
+
+    //var valinputtext = document.getElementById("inputtext").value
+
+    var arrayy = [
+        {
+            title: "ali",
+            date: "12/02/20024",
+            isdone: "false"
+        },
+        {
+            title: "salam",
+            date: "12/02/20024",
+            isdone: "true"
+        },
+        {
+            title: "bakry",
+            date: "12/02/20024",
+            isdone: "true"
+        }
+    ]
+
+ 
+    function getfromStorage(){
+        let neStr=JSON.parse(localStorage.getItem("array"))
+//the file who come from storage come by string file then we should transform to json.
+//if we cleard  the storge and we want addition new object the result come  error beacuse the vaue come as null
+//so we test a result f is null arry=[],else return value as it 
+       
+        if(neStr==null){
+            arrayy=[]
+        }else{
+            arrayy=neStr
+        }}
+        getfromStorage()
+         function work() {
+        document.getElementById("contli").innerHTML = ""
+        let index = 0
+        for (ar of arrayy) {
+            let content =
+
+                `
+    <div class=" ${ar.isdone ? 'done' : ''}  "  >
+     <div style="display:flex;justify-content: space-between" >
+      <div>  <div>${ar.title}</div> 
+      <span id="date"> ${ar.date}   </span>
+      </div>
+        <div style="display: flex; justify-content: space-between;">
+            <div><button onclick="delet(${index})" >حذف</button></div>
+            ${ar.isdone?
+              `<div><button onclick="readble(${index})" >لم يتم قراءتها</button></div> `
+            : 
+              `<div><button onclick="readble(${index})" >تمت قراءتها</button></div>`}
+        
+
+        <div><button onclick="update(${index})">تعديل</button></div>
+    
+    </div>
+    </div>
+    <hr>
+    `
+            index++
+            document.getElementById("contli").innerHTML += content
+   
+            // valinputtext = document.getElementById("inputtext").value
+        }
+    } work()
+
+    function clickbtn() {
+
+        let val = document.getElementById("inputtext").value
+
+        let obj = {
+            title: val,
+
+            date: Date(),
+
+            isdone: "false",
+
+        }
+        arrayy.push(obj)
+        SettoStorage()
+        work()
+    }
+
+    function delet(index) {
+        let res = prompt("enetr ok if you want delet are you sure")
+        // arrayy.splice(index,1)
+        // work()
+        
+        if (res == "yes") {
+            arrayy.splice(index, 1)
+            SettoStorage()
+            work()
+        }
+    }
+
+    function update(index) {
+        let task = arrayy[index]
+
+        let newtitle = document.getElementById("inputtext").value = task.title
+
+
+        //let newtitle= prompt("enter new name",task.title)
+        task.title = newtitle
+        SettoStorage()
+
+    }
+    // arrayy.replce
+
+
+    function readble(index){
+    let task =arrayy[index]
+    if (task.isdone) {
+        task.isdone="false"
+
+    }else{
+        task.isdone="true"
+    }
+    SettoStorage()
+    work()
+    console.log(task.isdone)
+    }
+   
+
+
+
+    function SettoStorage(){
+           let valStorgae=JSON.stringify(arrayy)
+   localStorage.setItem("array",valStorgae)
+    }
+
+
+
+
+
+    //function ele(){let valinputtext = document.getElementById("inputtext").value
+    //     let valinputtext = document.getElementById("inputtext").value
+    //   let re= document.getElementById("contli").innerHTML+=valinputtext
+    //   
+    //    return re
+    //    
+    //
+    //}
+
+
+
+
+    /*
+     //let valinputtext = document.getElementById("inputtext").value
+    function work(){    
+        document.getElementById("contli").innerHTML=""
+    for(indx of arrayy){  
+    
+        let content=
+        ` <div id="creatplace" style="display: flex; justify-content: space-between;" >
+          <div>  <div>${indx.title}</div></div>
+            <div style="display: flex; justify-content: space-between;"><div><button onclick="delet()" >حذف</button></div>
+            <div><button>تمت قراءتها</button></div>
+            <div><button>تعديل</button></div>
+        </div>
+        </div><hr>
+        `
+        document.getElementById("contli").innerHTML+=content
+    }}
+    work()
+    function clckbtn(){
+         var valinputtext = document.getElementById("inputtext").value
+         let obj={
+            title: valinputtext ,
+            isdone:"false"
+         }
+         arrayy.push(obj)
+    console.log(obj.title)
+    work()
+    }
+    
+    //}}
+    //work()
+    //function create(){
+    //   let valinputtext = document.getElementById("inputtext").value
+    //    let taskobj={
+    //        "title" :valinputtext,
+    //        "isdond":"false"
+    //    }
+    //    arrayy.push(taskobj)
+    //    console.log(valinputtext)
+    //}
+    //work()
+    
+    //x.push()
+    //for(nd of x){
+    //
+    //document.getElementById("w").innerHTML+=nd
+    //}
+    //let re= document.getElementById("contli").innerHTML+
+    //
+    //=x
+    //console.log(x)
+    //
+    ////x.pop(z)
+    //*/
+</script>
